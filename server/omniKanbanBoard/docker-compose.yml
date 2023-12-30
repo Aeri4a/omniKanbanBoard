@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=omniBase
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./sql/data:/var/lib/postgresql/data
+      - ./sql/setup.sql:/docker-entrypoint-initdb.d/init.sql
+
+  pg-admin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=test@test.com
+      - PGADMIN_DEFAULT_PASSWORD=test
+      - PGADMIN_LISTEN_PORT=5051
+    ports:
+      - "5051:5051"

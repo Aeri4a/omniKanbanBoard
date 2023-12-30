@@ -1,5 +1,5 @@
 
-CREATE TYPE stage AS ENUM ('assigned', 'in_progress', 'code_review', 'testing', 'done');
+CREATE TYPE stage AS ENUM ('ASSIGNED', 'IN_PROGRESS', 'CODE_REVIEW', 'TESTING', 'DONE');
 
 CREATE TABLE Users (
     id int8 PRIMARY KEY,

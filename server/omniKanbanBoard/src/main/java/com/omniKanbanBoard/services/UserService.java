@@ -13,4 +13,6 @@ public interface UserService {
     List<UserDTO> getAllByTeam(Long teamId);
 
     TeamDTO joinTeamByInviteCode(InviteCodeDTO inviteCodeDTO);
+
+    void leaveCurrentTeam();
 }

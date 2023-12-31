@@ -23,7 +23,7 @@ public class TeamController {
     @PostMapping("/create")
     public ResponseEntity<TeamDTO> create(@NotNull @RequestBody TeamDTO teamDTO) {
         if (teamDTO.getId() != null) {
-            throw new BadRequestInfoException("Team cannot have id", "idExists");
+            throw new BadRequestInfoException("New team cannot have id", "idExists");
         }
         if (teamDTO.getOwnerId() == null) {
             throw new BadRequestInfoException("Not provided creator id", "creatorIdNotExist");

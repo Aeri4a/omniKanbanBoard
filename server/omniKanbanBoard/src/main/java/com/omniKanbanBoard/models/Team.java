@@ -2,9 +2,11 @@ package com.omniKanbanBoard.models;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "teams")
-public class Team {
+public class Team implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
@@ -20,7 +22,7 @@ public class Team {
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
-//    public Team() {}
+    public Team() {}
 //    public Team(
 //            Long id,
 //            String name,

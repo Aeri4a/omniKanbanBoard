@@ -56,4 +56,8 @@ public class UserServiceImpl implements UserService {
         updatedUser.setTeam(team);
         return teamMapper.toDto(team);
     }
+
+    public void leaveCurrentTeam() {
+
+    }
 }

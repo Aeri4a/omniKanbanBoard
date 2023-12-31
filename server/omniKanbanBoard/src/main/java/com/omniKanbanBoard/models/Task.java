@@ -1,17 +1,13 @@
 package com.omniKanbanBoard.models;
 
 import jakarta.persistence.*;
+import com.omniKanbanBoard.utils.TaskStatus;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tasks")
-public class Task {
-    enum Status {
-        ASSIGNED,
-        IN_PROGRESS,
-        CODE_REVIEW,
-        TESTING,
-        DONE
-    }
+public class Task implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
@@ -21,21 +17,22 @@ public class Task {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 512)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status status;
+    private TaskStatus status;
 
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-//    public Task() {}
+    public Task() {}
 //    public Task(
 //            Long id,
 //            String title,
@@ -61,7 +58,7 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
-    public void setStatus(Status status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
     public void setTeam(Team team) {
@@ -80,7 +77,7 @@ public class Task {
     public String getDescription() {
         return this.description;
     }
-    public Status getStatus() {
+    public TaskStatus getStatus() {
         return this.status;
     }
     public Team getTeam() {

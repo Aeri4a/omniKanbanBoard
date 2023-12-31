@@ -59,4 +59,10 @@ public class UserController {
         TeamDTO teamJoined = userService.joinTeamByInviteCode(inviteCodeDTO);
         return ResponseEntity.ok().body(teamJoined);
     }
+
+    @GetMapping("/leaveTeam")
+    public ResponseEntity<String> leaveTeam() {
+        userService.leaveCurrentTeam();
+        return ResponseEntity.ok().body("Leaved team");
+    }
 }

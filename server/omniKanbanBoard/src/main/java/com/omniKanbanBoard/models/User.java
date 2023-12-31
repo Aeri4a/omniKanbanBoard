@@ -17,7 +17,7 @@ public class User {
     @Column(name = "password", length = 32, nullable = false)
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
 

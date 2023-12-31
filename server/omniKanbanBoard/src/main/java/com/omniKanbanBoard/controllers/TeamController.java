@@ -37,8 +37,9 @@ public class TeamController {
         return ResponseEntity.ok().body(createdTeam);
     }
 
-//    @DeleteMapping("/delete")
-//    public ResponseEntity<Void> delete() {
-//
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        teamService.delete(id);
+        return ResponseEntity.ok().body("OK");
+    }
 }

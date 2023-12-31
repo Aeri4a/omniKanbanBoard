@@ -2,7 +2,10 @@ package com.omniKanbanBoard.controllers;
 
 import com.omniKanbanBoard.models.User;
 import com.omniKanbanBoard.services.UserService;
+import com.omniKanbanBoard.services.dto.InviteCodeDTO;
+import com.omniKanbanBoard.services.dto.TeamDTO;
 import com.omniKanbanBoard.services.dto.UserDTO;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,15 @@ public class UserController {
         return ResponseEntity.ok().body(users);
     }
 
+    @GetMapping("/allByTeam/{teamId}")
+    public ResponseEntity<List<UserDTO>> getAllInTeam(@PathVariable Long teamId) {
+        List<UserDTO> users = userService.getAllByTeam(teamId);
+        if (users.isEmpty())
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(users);
+    }
+
+
 //    @GetMapping("/login")
 //    public ResponseEntity<String> login() {
 //    }
@@ -43,7 +55,8 @@ public class UserController {
 
 
     @PostMapping("/joinTeam")
-    public ResponseEntity joinTeam() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<TeamDTO> joinTeam(@NotNull @RequestBody InviteCodeDTO inviteCodeDTO) {
+        TeamDTO teamJoined = userService.joinTeamByInviteCode(inviteCodeDTO);
+        return ResponseEntity.ok().body(teamJoined);
     }
 }

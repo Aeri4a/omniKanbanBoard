@@ -16,7 +16,7 @@ public class Team {
     @Column(name = "invite_code")
     private String inviteCode;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 

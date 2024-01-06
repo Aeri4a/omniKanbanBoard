@@ -17,7 +17,7 @@ const buildUserExtraReducers = (builder: ActionReducerMapBuilder<UserState>) => 
         .addCase(getAuthenticate.fulfilled, (state, action) => {
             state.user.loading = false;
             state.user.authenticated = true;
-            localStorage.setItem("token", action.payload.token);
+            localStorage.setItem("token", action.payload.token); // do it in reducer?
         })
         .addCase(getAuthenticate.rejected, (state) => {
             state.user.loading = false;

@@ -11,6 +11,16 @@ export interface User {
     team: Team | null;
 }
 
+export interface Task {
+    id: number | null;
+    title: string | null;
+    description: string | null;
+    status: string | null;
+    user: User | null;
+}
+
+//---------------------------------
+
 export interface LoginPayload {
     username: string;
     password: string;

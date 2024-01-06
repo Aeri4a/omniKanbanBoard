@@ -33,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
 
     public List<TaskDTO> getAllByTeam(Long teamId) {
         List<Task> tasks = taskRepository.findAllByTeamId(teamId);
-        return taskMapper.toDto(tasks); // maper is broken
+        return taskMapper.toDto(tasks);
     }
 
     public TaskDTO create(TaskDTO taskDTO, Long userId) {

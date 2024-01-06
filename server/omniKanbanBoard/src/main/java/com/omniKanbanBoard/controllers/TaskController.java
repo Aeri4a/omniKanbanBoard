@@ -28,7 +28,7 @@ public class TaskController {
 
     // change it to get userId from token request
     @PostMapping("/create/{userId}")
-    public ResponseEntity<String> create(
+    public ResponseEntity<TaskDTO> create(
             @NotNull @RequestBody TaskDTO taskDTO,
             @PathVariable Long userId
     ) {
@@ -36,15 +36,7 @@ public class TaskController {
             throw new BadRequestInfoException("New task cannot have id", "idExists");
         }
 
-//        TaskDTO newTask = taskService.create(taskDTO, userId);
-        taskService.create(taskDTO, userId);
-        return ResponseEntity.ok().body("ss");
+        TaskDTO newTask = taskService.create(taskDTO, userId);
+        return ResponseEntity.ok().body(newTask);
     }
-
-
-//    @GetMapping("/team")
-//    public ResponseEntity getAllAssignedToTeam() {
-//
-//    }
-
 }

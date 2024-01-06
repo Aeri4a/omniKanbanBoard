@@ -1,5 +1,7 @@
 package com.omniKanbanBoard.services.impl;
 
+import com.omniKanbanBoard.models.Team;
+import com.omniKanbanBoard.services.dto.UpdateTaskDTO;
 import com.omniKanbanBoard.utils.TaskStatus;
 import com.omniKanbanBoard.models.Task;
 import com.omniKanbanBoard.models.User;
@@ -36,16 +38,38 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.toDto(tasks);
     }
 
-    public TaskDTO create(TaskDTO taskDTO, Long userId) {
+    public TaskDTO update(UpdateTaskDTO updateTaskDTO, Long teamId) {
+        Task taskToUpdate = new Task();
+        taskToUpdate.setId(updateTaskDTO.getId());
+        taskToUpdate.setTitle(updateTaskDTO.getTitle());
+        taskToUpdate.setDescription(updateTaskDTO.getDescription());
+        taskToUpdate.setStatus(updateTaskDTO.getStatus());
+
+        User newUser = new User();
+        newUser.setId(updateTaskDTO.getUserId());
+        taskToUpdate.setUser(newUser);
+
+        Team currentTeam = new Team();
+        currentTeam.setId(teamId);
+        taskToUpdate.setTeam(currentTeam);
+
+        Task updatedTask = taskRepository.save(taskToUpdate);
+        return taskMapper.toDto(updatedTask);
+    }
+
+    public TaskDTO create(TaskDTO taskDTO, User user) {
         Task saveTask = new Task();
         saveTask.setTitle(taskDTO.getTitle());
         saveTask.setDescription(taskDTO.getDescription());
         saveTask.setStatus(TaskStatus.ASSIGNED);
-        User assignedUser = userRepository.findById(userId).get();
-        saveTask.setUser(assignedUser);
-        saveTask.setTeam(assignedUser.getTeam());
+        saveTask.setUser(user);
+        saveTask.setTeam(user.getTeam());
         Task newTask = taskRepository.save(saveTask);
 
         return taskMapper.toDto(newTask);
+    }
+
+    public void delete(Long taskId) {
+        taskRepository.deleteById(taskId);
     }
 }

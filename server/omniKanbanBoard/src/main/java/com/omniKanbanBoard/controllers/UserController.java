@@ -8,6 +8,7 @@ import com.omniKanbanBoard.services.dto.UserDTO;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,44 +26,33 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAll() {
         List<UserDTO> users = userService.getAllUsers();
-        return ResponseEntity.ok().body(users);
-    }
-
-    @GetMapping("/allByTeam/{teamId}")
-    public ResponseEntity<List<UserDTO>> getAllInTeam(@PathVariable Long teamId) {
-        List<UserDTO> users = userService.getAllByTeam(teamId);
         if (users.isEmpty())
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok().body(users);
     }
 
-
-//    @GetMapping("/login")
-//    public ResponseEntity<String> login() {
-//    }
-//
-//    @GetMapping("/auth")
-//    public ResponseEntity<UserDTO> authenticate() {
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<UserDTO> getSingle() {
-//
-//    }
-
-    // Sooner for filtering users
-    //@GetMapping("/team")
-
+    @GetMapping("/allByTeam")
+    public ResponseEntity<List<UserDTO>> getAllInTeam() {
+        User requester = userService.getCurrentUser();
+        List<UserDTO> users = userService.getAllByTeam(requester.getTeam().getId());
+        if (users.isEmpty())
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(users);
+    }
 
     @PostMapping("/joinTeam")
     public ResponseEntity<TeamDTO> joinTeam(@NotNull @RequestBody InviteCodeDTO inviteCodeDTO) {
-        TeamDTO teamJoined = userService.joinTeamByInviteCode(inviteCodeDTO);
+        String inviteCode = inviteCodeDTO.getInviteCode();
+        User requester = userService.getCurrentUser();
+
+        TeamDTO teamJoined = userService.joinTeamByInviteCode(inviteCode, requester);
         return ResponseEntity.ok().body(teamJoined);
     }
 
     @GetMapping("/leaveTeam")
     public ResponseEntity<String> leaveTeam() {
-        userService.leaveCurrentTeam();
+        User requester = userService.getCurrentUser();
+        userService.leaveCurrentTeam(requester);
         return ResponseEntity.ok().body("Leaved team");
     }
 }

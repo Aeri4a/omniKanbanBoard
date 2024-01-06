@@ -1,7 +1,9 @@
 package com.omniKanbanBoard.services.dto;
 
 import com.omniKanbanBoard.models.Team;
+import lombok.Data;
 
+@Data
 public class TeamDTO {
 
     private Long id;

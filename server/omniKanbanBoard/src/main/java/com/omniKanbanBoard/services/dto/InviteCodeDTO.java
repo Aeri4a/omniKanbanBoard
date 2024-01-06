@@ -1,15 +1,15 @@
 package com.omniKanbanBoard.services.dto;
 
+import lombok.Data;
+
+@Data
 public class InviteCodeDTO {
     private String inviteCode;
 
-    private Long userId;
-
     public InviteCodeDTO() {}
 
-    public InviteCodeDTO(String inviteCode, Long userId) {
+    public InviteCodeDTO(String inviteCode) {
         this.inviteCode = inviteCode;
-        this.userId = userId;
     }
 
     public void setInviteCode(String inviteCode) {
@@ -18,13 +18,5 @@ public class InviteCodeDTO {
 
     public String getInviteCode() {
         return this.inviteCode;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getUserId() {
-        return this.userId;
     }
 }

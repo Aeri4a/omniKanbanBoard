@@ -1,78 +1,72 @@
 package com.omniKanbanBoard.models;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "name", length = 32, nullable = false)
-    private String name;
+    @Column(name = "username", length = 32, nullable = false)
+    private String username;
 
-    @Column(name = "password", length = 32, nullable = false)
+    @Column(name = "password", length = 80, nullable = false)
     private String password;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
 
-    public User() {}
-//    public User(
-//            Long id,
-//            String name,
-//            String password,
-//            Team team
-//    ) {
-//        this.id = id;
-//        this.name = name;
-//        this.password = password;
-//        this.team = team;
-//    }
+    @Enumerated(EnumType.STRING)
+    Role role;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public Team getTeam() {
-        return this.team;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List authorityList = new ArrayList<>();
+        authorityList.add(new SimpleGrantedAuthority(role.name()));
+//        return List.of(new SimpleGrantedAuthority(role.name()));
+        return authorityList;
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                "team='" + team + '\'' +
-                "}";
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

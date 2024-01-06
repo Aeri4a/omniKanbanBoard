@@ -2,7 +2,9 @@ package com.omniKanbanBoard.services.dto;
 
 import com.omniKanbanBoard.utils.TaskStatus;
 import com.omniKanbanBoard.models.User;
+import lombok.Data;
 
+@Data
 public class TaskDTO {
 
     private Long id;

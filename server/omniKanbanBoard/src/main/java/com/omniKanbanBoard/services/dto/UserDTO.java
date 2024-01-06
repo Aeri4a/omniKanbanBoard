@@ -1,12 +1,14 @@
 package com.omniKanbanBoard.services.dto;
 
 import com.omniKanbanBoard.models.User;
+import lombok.Data;
 
+@Data
 public class UserDTO {
 
     private Long id;
 
-    private String name;
+    private String username;
 
     private TeamDTO team;
 
@@ -14,7 +16,7 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this.id = user.getId();
-        this.name = user.getName();
+        this.username = user.getUsername();
         this.team = new TeamDTO(user.getTeam());
     }
 
@@ -26,12 +28,12 @@ public class UserDTO {
         return this.id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getName() {
-        return this.name;
+    public String getUsername() {
+        return this.username;
     }
 
     public void setTeam(TeamDTO team) {

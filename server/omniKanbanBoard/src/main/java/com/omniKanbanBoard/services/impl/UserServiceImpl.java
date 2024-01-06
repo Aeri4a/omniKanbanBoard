@@ -10,6 +10,12 @@ import com.omniKanbanBoard.services.dto.TeamDTO;
 import com.omniKanbanBoard.services.dto.UserDTO;
 import com.omniKanbanBoard.services.mapper.TeamMapper;
 import com.omniKanbanBoard.services.mapper.UserMapper;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +45,16 @@ public class UserServiceImpl implements UserService {
         this.teamMapper = teamMapper;
     }
 
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) {
+                return userRepository.findOneByUsername(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            }
+        };
+    }
+
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         return userMapper.toDto(users);
@@ -49,15 +65,21 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(users);
     }
 
-    public TeamDTO joinTeamByInviteCode(InviteCodeDTO inviteCodeDTO) {
-        Team team = teamService.getTeamByInviteCode(inviteCodeDTO.getInviteCode());
+    public TeamDTO joinTeamByInviteCode(String inviteCode, User user) {
+        Team team = teamService.getTeamByInviteCode(inviteCode);
 
-        User updatedUser = userRepository.findById(inviteCodeDTO.getUserId()).get();
-        updatedUser.setTeam(team);
+        user.setTeam(team);
+        userRepository.save(user);
         return teamMapper.toDto(team);
     }
 
-    public void leaveCurrentTeam() {
+    public void leaveCurrentTeam(User user) {
+        user.setTeam(null);
+        userRepository.save(user);
+    }
 
+    public User getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findOneByUsername(username).get();
     }
 }

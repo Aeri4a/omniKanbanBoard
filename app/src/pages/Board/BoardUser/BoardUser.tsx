@@ -1,9 +1,11 @@
 
+import { StyledBox } from "./BoardUser.styles";
+
 const BroadUser = () => {
     return (
-        <div>
+        <StyledBox>
             BroadUser
-        </div>
+        </StyledBox>
     )
 };
 

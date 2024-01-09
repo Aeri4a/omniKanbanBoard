@@ -3,11 +3,12 @@ import * as userThunks from './User.thunks';
 import buildExtraReducers from './User.extraReducers';
 import { RootState } from '../..';
 import UserState from './User.state';
+import userReducers from './User.reducers';
 
 const initialState: UserState = {
     user: {
         loading: false,
-        authenticated: false,
+        isAuthenticated: false,
         
         id: null,
         username: null,
@@ -19,7 +20,7 @@ const initialState: UserState = {
 const slice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: { ...userReducers },
     extraReducers: buildExtraReducers
 });
 

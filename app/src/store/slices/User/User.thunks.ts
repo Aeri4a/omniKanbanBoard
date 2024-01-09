@@ -7,8 +7,19 @@ const URL = 'http://localhost:8080';
 
 export const getAuthenticate = createAsyncThunk<JwtToken, LoginPayload, { state: RootState }>(
     'user/auth', (loginData, { rejectWithValue }) =>
-        axios.post(`${URL}/auth/login`, loginData)
-            .then(res => res.data)
+        axios.post<JwtToken>(`${URL}/auth/login`, loginData)
+            .then(res => {
+                const { token } = res.data;
+                if (token) {
+                    localStorage.setItem('jwt-token', token);
+                    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+                } else {
+                    localStorage.removeItem('jwt-token');
+                    delete axios.defaults.headers.common.Authorization;
+                }
+
+                return res.data;
+            })
             .catch(err => rejectWithValue(err.response.data))
 );
 

@@ -14,14 +14,13 @@ const buildUserExtraReducers = (builder: ActionReducerMapBuilder<UserState>) => 
         .addCase(getAuthenticate.pending, (state) => {
             state.user.loading = true;
         })
-        .addCase(getAuthenticate.fulfilled, (state, action) => {
+        .addCase(getAuthenticate.fulfilled, (state) => {
             state.user.loading = false;
-            state.user.authenticated = true;
-            localStorage.setItem("token", action.payload.token); // do it in reducer?
+            state.user.isAuthenticated = true;
         })
         .addCase(getAuthenticate.rejected, (state) => {
             state.user.loading = false;
-            state.user.authenticated = false;
+            state.user.isAuthenticated = false;
         })
 
         .addCase(getCurrentUser.pending, (state) => {
@@ -36,7 +35,7 @@ const buildUserExtraReducers = (builder: ActionReducerMapBuilder<UserState>) => 
         })
         .addCase(getCurrentUser.rejected, (state) => {
             state.user.loading = false;
-            state.user.authenticated = false;
+            state.user.isAuthenticated = false;
         })
 
         .addCase(getUsersByTeam.fulfilled, (state, action) => {

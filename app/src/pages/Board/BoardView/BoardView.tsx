@@ -1,10 +1,12 @@
 
 
+import { StyledBox } from "./BoardView.styles";
+
 const BroadView = () => {
     return(
-        <div>
+        <StyledBox>
             BroadView
-        </div>
+        </StyledBox>
     );
 }
 

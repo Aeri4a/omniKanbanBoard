@@ -1,7 +1,5 @@
 import { FC, useEffect } from "react"
 
-import { Container } from "@mui/material"
-
 import BroadBrowse from "../pages/Board/BoardBrowse"
 import Login from "../pages/Login"
 import useAuth from "../hooks/useAuth"

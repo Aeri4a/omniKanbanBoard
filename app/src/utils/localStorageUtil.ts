@@ -6,3 +6,11 @@ export const getTokenFromLS = () => {
     else
         return '';
 };
+
+export const removeTokenFromLS = () => {
+    try {
+        localStorage.removeItem("jwt-token");
+    } catch {
+        return;
+    }
+}

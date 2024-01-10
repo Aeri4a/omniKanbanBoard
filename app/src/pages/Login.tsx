@@ -2,7 +2,11 @@ import { FC, useState } from "react";
 import { Typography } from "@mui/material";
 
 import { LoginPayload } from "../types/common";
-import { StyledContainer, StyledTextField, StyledLoadingButton } from "./Login.styles";
+import {
+    StyledContainer,
+    StyledTextField,
+    StyledLoadingButton,
+} from "./Login.styles";
 import { useDispatch } from "../store";
 import { userActions } from "../store/slices/User";
 import { toast } from "react-toastify";
@@ -27,7 +31,7 @@ const Login: FC = () => {
         dispatch(userActions.getAuthenticate(loginData)).then(() => {
             toast.success("Login success!");
         });
-    }
+    };
 
     return (
         <StyledContainer>
@@ -45,7 +49,13 @@ const Login: FC = () => {
                 onChange={handleInputChange}
                 variant="outlined"
                 required={true}
-                sx={{ input: { color: "white", fontSize: '30px', textAlign: 'center' } }}
+                sx={{
+                    input: {
+                        color: "white",
+                        fontSize: "30px",
+                        textAlign: "center",
+                    },
+                }}
             />
             <StyledTextField
                 placeholder="Password"
@@ -54,9 +64,21 @@ const Login: FC = () => {
                 onChange={handleInputChange}
                 type="password"
                 required={true}
-                sx={{ input: { color: "white", fontSize: '30px', textAlign: 'center'} }}
+                sx={{
+                    input: {
+                        color: "white",
+                        fontSize: "30px",
+                        textAlign: "center",
+                    },
+                }}
             />
-            <StyledLoadingButton variant="contained" onClick={handleSubmit}>Login</StyledLoadingButton>
+            <StyledLoadingButton
+                type="submit"
+                variant="contained"
+                onClick={handleSubmit}
+            >
+                Login
+            </StyledLoadingButton>
         </StyledContainer>
     );
 };

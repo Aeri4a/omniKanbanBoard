@@ -8,7 +8,7 @@ export const StyledBox = styled(Box)`
         flex-direction: column;
         flex: 2;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
 
         padding: 10px;
 
@@ -16,17 +16,16 @@ export const StyledBox = styled(Box)`
 
     }
 `
-
-export const ModalContainer = styled(Box)`
+export const UpperSection = styled(Box)`
     && {
         display: flex;
-        flex-direction: row;
-
-        width: 700px;
-        height: 500px;
-        background-color: grey;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
     }
 `;
+
 
 export const TileHeader = styled(Box)`
     && {
@@ -37,8 +36,15 @@ export const TileHeader = styled(Box)`
         
         border-radius: 10px;
         padding: 5px 15px 5px 15px;
-        margin: 5px;
+        // margin-bottom: 15px;
         background-color: white;
         color: #242424;
+    }
+`;
+
+export const DialogBox = styled(Box)`
+    && {
+        display: flex;
+        flex-direction: column;
     }
 `;

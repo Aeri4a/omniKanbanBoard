@@ -55,6 +55,11 @@ public class UserServiceImpl implements UserService {
         };
     }
 
+    public UserDTO getCurrentDTO() {
+        User requester = this.getCurrentUser();
+        return userMapper.toDto(requester);
+    }
+
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         return userMapper.toDto(users);

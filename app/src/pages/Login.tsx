@@ -28,9 +28,14 @@ const Login: FC = () => {
     };
 
     const handleSubmit = () => {
-        dispatch(userActions.getAuthenticate(loginData)).then(() => {
-            toast.success("Login success!");
-        });
+        dispatch(userActions.getAuthenticate(loginData))
+            .unwrap()
+            .then(() => {
+                toast.success("Login success");
+            })
+            .catch(() => {
+                toast.error("Login failed");
+            });
     };
 
     return (

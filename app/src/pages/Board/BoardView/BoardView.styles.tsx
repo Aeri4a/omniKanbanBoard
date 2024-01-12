@@ -5,7 +5,7 @@ import styled from "styled-components";
 export const StyledBox = styled(Box)`
     && {
         display: flex;
-        flex: 5;
+        flex: 8;
         align-items: center;
     }
 `

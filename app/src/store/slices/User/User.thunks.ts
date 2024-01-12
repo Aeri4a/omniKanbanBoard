@@ -16,6 +16,8 @@ export const getAuthenticate = createAsyncThunk<JwtToken, LoginPayload, { state:
                 } else {
                     localStorage.removeItem('jwt-token');
                     delete axios.defaults.headers.common.Authorization;
+                    console.log('xxx');
+                    throw Error("dada");
                 }
 
                 return res.data;

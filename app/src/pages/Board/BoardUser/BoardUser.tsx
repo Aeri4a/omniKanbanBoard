@@ -1,15 +1,34 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../../../store";
 import { userActions, userSelector } from "../../../store/slices/User";
-import { ModalContainer, StyledBox, TileHeader } from "./BoardUser.styles";
-import { Button, Modal, Typography } from "@mui/material";
+import { StyledBox, TileHeader, UpperSection } from "./BoardUser.styles";
+import { Box, Button, Dialog, Typography } from "@mui/material";
+import BoardUserCT from "./BoardUserCT";
+import { toast } from "react-toastify";
+import BoardUserJT from "./BoardUserJT";
+
+enum ModalMode {
+    CREATE_TEAM = "createTeam",
+    JOIN_TEAM = "joinTeam",
+}
+
+interface ModalStatus {
+    open: boolean;
+    mode: ModalMode | undefined;
+}
 
 const BroadUser = () => {
     const dispatch = useDispatch();
     const { user } = useSelector(userSelector);
 
     const hasUserTeam = Boolean(user.team);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalStatus, setModalStatus] = useState<ModalStatus>({
+        open: false,
+        mode: undefined,
+    });
+
+    const [formTeamName, setFormTeamName] = useState("");
+    const [formCodeInvite, setFormCodeInvite] = useState("");
 
     const getUserData = () => {
         dispatch(userActions.getCurrentUser());
@@ -21,7 +40,39 @@ const BroadUser = () => {
     };
 
     const handleModalClose = () => {
-        setIsModalOpen(false);
+        setModalStatus((state) => ({ ...state, open: false }));
+    };
+
+    const handleTeamCreate = () => {
+        dispatch(userActions.createTeam({ name: formTeamName }))
+            .unwrap()
+            .then(() => {
+                handleModalClose();
+                toast.success("Team created");
+            })
+            .catch(() => {
+                handleModalClose();
+                toast.error("Error while creating team");
+            })
+            .finally(() => {
+                getUserData();
+            });
+    };
+
+    const handleJoinTeam = () => {
+        dispatch(userActions.joinTeam({ inviteCode: formCodeInvite }))
+            .unwrap()
+            .then(() => {
+                handleModalClose();
+                toast.success("Team joined");
+            })
+            .catch(() => {
+                handleModalClose();
+                toast.error("Error while joining team");
+            })
+            .finally(() => {
+                getUserData();
+            });
     };
 
     useEffect(() => {
@@ -32,40 +83,80 @@ const BroadUser = () => {
     // }, [user]); // check if its necessary
 
     const noTeamButton = () => (
-        <>
-            <Button variant="contained" onClick={() => setIsModalOpen(true)}>
+        <Box>
+            <Button
+                variant="contained"
+                sx={{ marginRight: "15px" }}
+                onClick={() =>
+                    setModalStatus({ open: true, mode: ModalMode.CREATE_TEAM })
+                }
+            >
                 Create team
             </Button>
-            <Button variant="contained">Join team</Button>
-        </>
+            <Button
+                variant="contained"
+                onClick={() =>
+                    setModalStatus({ open: true, mode: ModalMode.JOIN_TEAM })
+                }
+            >
+                Join team
+            </Button>
+        </Box>
     );
 
     const existTeamButton = () => (
-        <>
-            <Button variant="contained">Leave team</Button>
-        </>
+        <Button variant="contained">Leave team</Button>
     );
 
     return (
         <StyledBox>
-            <Modal open={isModalOpen} onClose={handleModalClose}>
-                <ModalContainer>x</ModalContainer>
-            </Modal>
-            <Button fullWidth variant="contained" onClick={handleLogout} color="secondary">
+            <Dialog
+                open={modalStatus.open}
+                onClose={handleModalClose}
+                fullWidth
+            >
+                {modalStatus.mode === ModalMode.CREATE_TEAM ? (
+                    <BoardUserCT
+                        handleClose={handleModalClose}
+                        teamName={formTeamName}
+                        handleTeamNameChange={(e) => {
+                            setFormTeamName(e.target.value);
+                        }}
+                        handleTeamCreate={handleTeamCreate}
+                    />
+                ) : (
+                    <BoardUserJT
+                        handleClose={handleModalClose}
+                        inviteCode={formCodeInvite}
+                        handleInviteCodeChange={(e) => {
+                            setFormCodeInvite(e.target.value);
+                        }}
+                        handleTeamJoin={handleJoinTeam}
+                    />
+                )}
+            </Dialog>
+            <UpperSection>
+                <TileHeader>
+                    <Typography variant="h5">User:</Typography>
+                    <Typography variant="h5">{user.username}</Typography>
+                </TileHeader>
+
+                <TileHeader>
+                    <Typography variant="h5">Team:</Typography>
+                    <Typography variant="h5">
+                        {hasUserTeam ? user.team?.name : "No team"}
+                    </Typography>
+                </TileHeader>
+                {hasUserTeam ? existTeamButton() : noTeamButton()}
+            </UpperSection>
+            <Button
+                fullWidth
+                variant="contained"
+                onClick={handleLogout}
+                color="secondary"
+            >
                 Logout
             </Button>
-            <TileHeader>
-                <Typography variant="h5">User:</Typography>
-                <Typography variant="h5">{user.username}</Typography>
-            </TileHeader>
-
-            <TileHeader>
-                <Typography variant="h5">Team</Typography>
-                <Typography variant="h5">
-                    {hasUserTeam ? user.team?.name : "No team"}
-                </Typography>
-            </TileHeader>
-            {hasUserTeam ? existTeamButton() : noTeamButton()}
         </StyledBox>
     );
 };

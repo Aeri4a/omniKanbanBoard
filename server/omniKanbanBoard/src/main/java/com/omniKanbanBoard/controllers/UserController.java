@@ -6,9 +6,7 @@ import com.omniKanbanBoard.services.dto.InviteCodeDTO;
 import com.omniKanbanBoard.services.dto.TeamDTO;
 import com.omniKanbanBoard.services.dto.UserDTO;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +19,11 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping
+    public ResponseEntity<UserDTO> getCurrent() {
+        return ResponseEntity.ok().body(userService.getCurrentDTO());
     }
 
     @GetMapping("/all")

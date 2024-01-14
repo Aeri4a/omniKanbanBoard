@@ -12,7 +12,7 @@ export const StyledBox = styled(Box)`
 
         padding: 10px;
 
-        background-color: #313131;
+        background-color: #333333;
 
     }
 `

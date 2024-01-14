@@ -19,6 +19,14 @@ export interface Task {
     user: User | null;
 }
 
+export enum TaskStatus {
+    ASSIGNED = 'ASSIGNED',
+    IN_PROGRESS = 'IN_PROGRESS',
+    CODE_REVIEW = 'CODE_REVIEW',
+    TESTING = 'TESTING',
+    DONE = 'DONE'
+}
+
 //---------------------------------
 
 export interface LoginPayload {

@@ -1,11 +1,15 @@
+import BoardViewTable from "./BoardViewTable";
 
-
-import { StyledBox } from "./BoardView.styles";
+import { StyledBox, SectionBox } from "./BoardView.styles";
+import BoardViewPanel from "./BoardViewPanel";
 
 const BroadView = () => {
-    return(
+    return (
         <StyledBox>
-            BroadView
+            <SectionBox>
+                <BoardViewPanel/>
+                <BoardViewTable/>
+            </SectionBox>
         </StyledBox>
     );
 }

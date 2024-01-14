@@ -7,7 +7,7 @@ const URL = 'http://localhost:8080/api/task';
 
 export const getTasksByTeam = createAsyncThunk<Task[], void, { state: RootState }>(
     'task/getByTeam', (_, { rejectWithValue }) =>
-        axios.get(`${URL}`)
+        axios.get(`${URL}/allByTeam`)
             .then(res => res.data)
             .catch(err => rejectWithValue(err.response.data))
 );

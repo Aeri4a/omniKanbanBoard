@@ -12,7 +12,7 @@ export const getTasksByTeam = createAsyncThunk<Task[], void, { state: RootState 
             .catch(err => rejectWithValue(err.response.data))
 );
 
-export const createTask = createAsyncThunk<Task, Task, { state: RootState }>(
+export const createTask = createAsyncThunk<Task, TaskDTO, { state: RootState }>(
     'task/create', (taskData, { rejectWithValue }) =>
         axios.post(`${URL}`, taskData)
             .then(res => res.data)

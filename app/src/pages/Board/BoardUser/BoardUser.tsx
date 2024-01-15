@@ -48,7 +48,7 @@ const BroadUser = () => {
             .unwrap()
             .then(() => {
                 handleModalClose();
-                toast.success("Team created");
+                toast.success("Created team");
             })
             .catch(() => {
                 handleModalClose();
@@ -64,7 +64,7 @@ const BroadUser = () => {
             .unwrap()
             .then(() => {
                 handleModalClose();
-                toast.success("Team joined");
+                toast.success("Joined to team");
             })
             .catch(() => {
                 handleModalClose();
@@ -74,6 +74,11 @@ const BroadUser = () => {
                 getUserData();
             });
     };
+
+    const handleCodeCopy = () => {
+        navigator.clipboard.writeText(user.team?.inviteCode ?? '')
+        toast.info("Copied invite code to clipboard");
+    }
 
     useEffect(() => {
         getUserData();
@@ -105,7 +110,17 @@ const BroadUser = () => {
     );
 
     const existTeamButton = () => (
+        <>  
+        <TileHeader>
+            <Typography variant="h6">
+                Invite code
+            </Typography>
+            <Button sx={{ color: 'grey' }} onClick={handleCodeCopy}>
+                {user.team?.inviteCode}
+            </Button>
+        </TileHeader>
         <Button variant="contained">Leave team</Button>
+        </>
     );
 
     return (
@@ -137,13 +152,13 @@ const BroadUser = () => {
             </Dialog>
             <UpperSection>
                 <TileHeader>
-                    <Typography variant="h5">User:</Typography>
-                    <Typography variant="h5">{user.username}</Typography>
+                    <Typography variant="h5">User</Typography>
+                    <Typography variant="h6">{user.username}</Typography>
                 </TileHeader>
 
                 <TileHeader>
-                    <Typography variant="h5">Team:</Typography>
-                    <Typography variant="h5">
+                    <Typography variant="h5">Team</Typography>
+                    <Typography variant="h6">
                         {hasUserTeam ? user.team?.name : "No team"}
                     </Typography>
                 </TileHeader>

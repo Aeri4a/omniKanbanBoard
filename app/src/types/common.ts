@@ -43,9 +43,9 @@ export interface InviteCodeDTO {
 }
 
 export interface TaskDTO {
-    id: number | null;
+    id?: number | null;
     title: string | null;
     description: string | null;
-    status: string | null;
-    userId: number | null;
+    status?: string | null;
+    userId?: number | null;
 }

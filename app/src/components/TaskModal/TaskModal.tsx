@@ -18,14 +18,14 @@ import { TaskStatus } from "../../types/common";
 interface TaskModalProps {
     title: string;
     description: string;
-    userId: number;
-    status: string;
+    userId?: number;
+    status?: string;
     handleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDescriptionChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleUserChange: (e: SelectChangeEvent) => void;
-    handleStatusChange: (e: SelectChangeEvent) => void;
+    handleUserChange?: (e: SelectChangeEvent) => void;
+    handleStatusChange?: (e: SelectChangeEvent) => void;
 
-    handleDelete: () => void;
+    handleDelete?: () => void;
     handleSave: () => void;
     onClose: () => void;
 

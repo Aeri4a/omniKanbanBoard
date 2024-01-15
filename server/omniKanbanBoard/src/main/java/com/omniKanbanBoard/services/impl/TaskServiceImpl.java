@@ -1,5 +1,6 @@
 package com.omniKanbanBoard.services.impl;
 
+import com.omniKanbanBoard.errors.BadRequestInfoException;
 import com.omniKanbanBoard.models.Team;
 import com.omniKanbanBoard.services.dto.UpdateTaskDTO;
 import com.omniKanbanBoard.utils.TaskStatus;
@@ -57,11 +58,16 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.toDto(updatedTask);
     }
 
-    public TaskDTO create(TaskDTO taskDTO, User user) {
+    public TaskDTO create(UpdateTaskDTO updateTaskDTO) {
         Task saveTask = new Task();
-        saveTask.setTitle(taskDTO.getTitle());
-        saveTask.setDescription(taskDTO.getDescription());
+        saveTask.setTitle(updateTaskDTO.getTitle());
+        saveTask.setDescription(updateTaskDTO.getDescription());
         saveTask.setStatus(TaskStatus.ASSIGNED);
+
+        User user = userRepository.findById(updateTaskDTO.getUserId())
+                .orElseThrow(
+                        () -> new BadRequestInfoException("Can't find user", "userNotFound")
+                );
         saveTask.setUser(user);
         saveTask.setTeam(user.getTeam());
         Task newTask = taskRepository.save(saveTask);

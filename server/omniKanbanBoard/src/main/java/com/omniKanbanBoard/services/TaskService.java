@@ -12,7 +12,7 @@ public interface TaskService {
 
     TaskDTO update(UpdateTaskDTO updateTaskDTO, Long teamId);
 
-    TaskDTO create(TaskDTO taskDTO, User user);
+    TaskDTO create(UpdateTaskDTO updateTaskDTO);
 
     void delete(Long taskId);
 }

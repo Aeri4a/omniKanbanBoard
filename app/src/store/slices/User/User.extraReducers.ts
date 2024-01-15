@@ -6,7 +6,8 @@ import {
     getCurrentUser,
     getUsersByTeam,
     joinTeam,
-    createTeam
+    createTeam,
+    leaveTeam
 } from "./User.thunks";
 
 const buildUserExtraReducers = (builder: ActionReducerMapBuilder<UserState>) => {
@@ -62,6 +63,10 @@ const buildUserExtraReducers = (builder: ActionReducerMapBuilder<UserState>) => 
         })
         .addCase(createTeam.rejected, (state) => {
             state.user.loading = false;
+        })
+
+        .addCase(leaveTeam.fulfilled, (state) => {
+            state.user.team = null;
         })
 };
 

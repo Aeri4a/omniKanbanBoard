@@ -18,11 +18,11 @@ import { TaskStatus } from "../../types/common";
 interface TaskModalProps {
     title: string;
     description: string;
-    userId?: number;
+    userId: number;
     status?: string;
     handleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDescriptionChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleUserChange?: (e: SelectChangeEvent) => void;
+    handleUserChange: (e: SelectChangeEvent) => void;
     handleStatusChange?: (e: SelectChangeEvent) => void;
 
     handleDelete?: () => void;
@@ -80,7 +80,7 @@ const TaskModal: FC<TaskModalProps> = ({
                         labelId="task-modal-label"
                         label="User"
                         sx={{ width: "250px", marginTop: "68px" }}
-                        disabled={!isEdit}
+                        // disabled={!isEdit}
                         value={userId}
                         onChange={handleUserChange}
                     >

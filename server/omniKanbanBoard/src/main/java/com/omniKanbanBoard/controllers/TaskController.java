@@ -53,14 +53,14 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<TaskDTO> create(
-            @NotNull @RequestBody TaskDTO taskDTO
+            @NotNull @RequestBody UpdateTaskDTO updateTaskDTO
     ) {
-        if (taskDTO.getId() != null) {
+        if (updateTaskDTO.getId() != null) {
             throw new BadRequestInfoException("New task cannot have id", "idExists");
         }
         User requester = userService.getCurrentUser();
 
-        TaskDTO newTask = taskService.create(taskDTO, requester);
+        TaskDTO newTask = taskService.create(updateTaskDTO);
         return ResponseEntity.ok().body(newTask);
     }
 

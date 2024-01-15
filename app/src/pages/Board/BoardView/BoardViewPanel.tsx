@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { ContentBox, StyledBox, TaskAddBox } from './BoardViewPanel.styles';
 import AddIcon from '@mui/icons-material/Add';
-import { Dialog, DialogContent } from '@mui/material';
+import { Dialog, DialogContent, SelectChangeEvent } from '@mui/material';
 import TaskModal from '../../../components/TaskModal';
 import { TaskDTO } from '../../../types/common';
 import { useDispatch } from '../../../store';
@@ -10,7 +10,8 @@ import { toast } from 'react-toastify';
 
 const initalTaskEditForm: TaskDTO = {
     title: '',
-    description: ''
+    description: '',
+    userId: null
 }
 
 const BoardViewPanel: FC = () => {
@@ -25,6 +26,10 @@ const BoardViewPanel: FC = () => {
 
     const handleEditTaskDesc = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTaskEditForm(state => ({ ...state, description: e.target.value }));
+    }
+
+    const handleEditTaskUser = (e: SelectChangeEvent) => {
+        setTaskEditForm(state => ({ ...state, userId: e.target.value }));
     }
 
     const handleCreateTask = () => {
@@ -61,8 +66,10 @@ const BoardViewPanel: FC = () => {
                         onClose={handleCloseModal}
                         title={taskEditForm.title ?? ''}
                         description={taskEditForm.description ?? ''}
+                        userId={taskEditForm.userId}
                         handleTitleChange={handleEditTaskTitle}
                         handleDescriptionChange={handleEditTaskDesc}
+                        handleUserChange={handleEditTaskUser}
                         handleSave={handleCreateTask}
                     />
                 </DialogContent>

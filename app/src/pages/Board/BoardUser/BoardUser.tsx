@@ -75,10 +75,26 @@ const BroadUser = () => {
             });
     };
 
+    const handleLeaveTeam = () => {
+        dispatch(userActions.leaveTeam())
+            .unwrap()
+            .then(() => {
+                handleModalClose();
+                toast.success("Left team");
+            })
+            .catch(() => {
+                handleModalClose();
+                toast.error("Can't left team");
+            })
+            .finally(() => {
+                getUserData();
+            });
+    };
+
     const handleCodeCopy = () => {
-        navigator.clipboard.writeText(user.team?.inviteCode ?? '')
+        navigator.clipboard.writeText(user.team?.inviteCode ?? "");
         toast.info("Copied invite code to clipboard");
-    }
+    };
 
     useEffect(() => {
         getUserData();
@@ -110,16 +126,16 @@ const BroadUser = () => {
     );
 
     const existTeamButton = () => (
-        <>  
-        <TileHeader>
-            <Typography variant="h6">
-                Invite code
-            </Typography>
-            <Button sx={{ color: 'grey' }} onClick={handleCodeCopy}>
-                {user.team?.inviteCode}
+        <>
+            <TileHeader>
+                <Typography variant="h6">Invite code</Typography>
+                <Button sx={{ color: "grey" }} onClick={handleCodeCopy}>
+                    {user.team?.inviteCode}
+                </Button>
+            </TileHeader>
+            <Button variant="contained" onClick={handleLeaveTeam}>
+                Leave team
             </Button>
-        </TileHeader>
-        <Button variant="contained">Leave team</Button>
         </>
     );
 

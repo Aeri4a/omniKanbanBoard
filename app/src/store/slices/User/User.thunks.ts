@@ -52,3 +52,8 @@ export const createTeam = createAsyncThunk<Team, { name: string; }, { state: Roo
             .then(res => res.data)
             .catch(err => rejectWithValue(err.response.data))
 );
+
+export const leaveTeam = createAsyncThunk<void, void, { state: RootState }>(
+    'user/leaveTeam', () =>
+        axios.get(`${URL}/api/user/leaveTeam`)
+);

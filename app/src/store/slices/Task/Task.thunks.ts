@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../..";
-import { Task } from "../../../types/common";
+import { Task, TaskDTO } from "../../../types/common";
 
 const URL = 'http://localhost:8080/api/task';
 
@@ -19,7 +19,7 @@ export const createTask = createAsyncThunk<Task, Task, { state: RootState }>(
             .catch(err => rejectWithValue(err.response.data))
 );
 
-export const updateTask = createAsyncThunk<Task, Task, { state: RootState }>(
+export const updateTask = createAsyncThunk<Task, TaskDTO, { state: RootState }>(
     'task/update', (taskData, { rejectWithValue }) =>
         axios.patch(`${URL}/${taskData.id}`, taskData)
             .then(res => res.data)

@@ -41,3 +41,11 @@ export interface JwtToken {
 export interface InviteCodeDTO {
     inviteCode: string;
 }
+
+export interface TaskDTO {
+    id: number | null;
+    title: string | null;
+    description: string | null;
+    status: string | null;
+    userId: number | null;
+}

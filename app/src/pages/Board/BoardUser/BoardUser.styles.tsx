@@ -34,7 +34,7 @@ export const TileHeader = styled(Box)`
         width: 90%;
         heigth: 70px;
         
-        border-radius: 10px;
+        border-radius: 5px;
         padding: 5px 15px 5px 15px;
         // margin-bottom: 15px;
         background-color: white;
